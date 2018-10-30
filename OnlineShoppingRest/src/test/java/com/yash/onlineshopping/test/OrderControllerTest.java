@@ -1,5 +1,11 @@
 package com.yash.onlineshopping.test;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +31,7 @@ import com.yash.onlineshopping.model.CustomerModel;
 import com.yash.onlineshopping.model.OrdersModel;
 import com.yash.onlineshopping.model.ProductModel;
 import com.yash.onlineshopping.serviceImpl.OrderServiceImpl;
+import com.yash.onlineshopping.util.RecordNotFoundException;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = OrderController.class, secure = false)
@@ -41,6 +48,7 @@ public class OrderControllerTest {
 	OrdersModel order = new OrdersModel();
 	CustomerModel customer = new CustomerModel();
 	ProductModel product = new ProductModel();
+	private String orderJSON;
 
 	@Test
 	public void shouldGetOrderByOrderId() throws Exception {
@@ -90,25 +98,21 @@ public class OrderControllerTest {
 	@Test
 	public void shouldReturnRecordNotFoundWhenOrderIsNull() throws Exception {
 
+		when(orderServiceimpl.findById(10)).thenThrow(new RecordNotFoundException("Resource not found!"));
+
+		// If I replace the above line with Mockito.any, the testcase passes
+		// Mockito.when(customerService.insert(Mockito.any(Customer.class))
+		// .thenThrow(new BusinessException("CustomerName", "CustomerName
+		// already in use"));
+		mockMvc.perform(get("/10")).andExpect(status().isOk()).andExpect(content().contentType(orderJSON))
+				.andDo(print());
+
 		/*
-		 * Response response = givenAuth().get(URL_PREFIX + "/api/foos/ccc");
-		 * RecordNotFoundException error =
-		 * response.as(RecordNotFoundException.class);
+		 * mockMvc.perform(get("/10").contentType(MediaType.APPLICATION_JSON).
+		 * content(orderJSON)
+		 * .accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest(
+		 * ));
 		 */
-
-		// exception.expect(RecordNotFoundException.class);
-		// Mockito.when(orderService.findById(Mockito.anyInt())).thenReturn(null);
-
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/order/10").accept(MediaType.APPLICATION_JSON);
-
-		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-
-		System.out.println(result.getResponse());
-		// String expected =
-		// "{orderId:1,paymentMethod:Cash,paidAmount:12000,orderQuantity:1}";
-
-		// JSONAssert.assertEquals(RecordNotFoundException.class,
-		// HttpStatus.NOT_FOUND);
 	}
 
 	private void setOrderModel() {

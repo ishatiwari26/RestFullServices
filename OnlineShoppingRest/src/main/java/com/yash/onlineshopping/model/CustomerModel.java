@@ -27,8 +27,16 @@ public class CustomerModel implements Serializable {
 	private String customerEmail;
 	@Column(name = "isActive", nullable = false, columnDefinition = "VARCHAR(5) default 'N'")
 	private String isActive;
-
+	private String customerGender;
 	private Date createdDate = new Date();
+
+	public String getCustomerGender() {
+		return customerGender;
+	}
+
+	public void setCustomerGender(String customerGender) {
+		this.customerGender = customerGender;
+	}
 
 	public Integer getCustomerId() {
 		return customerId;
@@ -83,7 +91,7 @@ public class CustomerModel implements Serializable {
 	}
 
 	public CustomerModel(Integer customerId, String customerName, String customerContactNo, String customerEmail,
-			String isActive, Date createdDate) {
+			String isActive, Date createdDate, String customerGender) {
 		super();
 		this.customerId = customerId;
 		this.customerName = customerName;
@@ -91,6 +99,7 @@ public class CustomerModel implements Serializable {
 		this.customerEmail = customerEmail;
 		this.isActive = isActive;
 		this.createdDate = createdDate;
+		this.customerGender = customerGender;
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			while (rs.next()) {
 				customer = new CustomerModel(rs.getInt("customerId"), rs.getString("customerName"),
 						rs.getString("customerContactNo"), rs.getString("customerEmail"), rs.getString("isActive"),
-						rs.getDate("createdDate"));
+						rs.getDate("createdDate"), rs.getString("customerGender"));
 
 			}
 		} catch (SQLException e) {
@@ -71,10 +71,10 @@ public class CustomerDaoImpl implements CustomerDao {
 		try {
 			conn = jdbcConnection.getConnection();
 			st = conn.createStatement();
-			String sql = "INSERT INTO customer_master(customerId,createdDate,customerContactNo,customerEmail,customerName,isActive)"
+			String sql = "INSERT INTO customer_master(customerId,createdDate,customerContactNo,customerEmail,customerName,isActive,customerGender)"
 					+ "VALUES(null, CURRENT_TIMESTAMP(),'" + customerModel.getCustomerContactNo() + "' , '"
 					+ customerModel.getCustomerEmail() + "' , '" + customerModel.getCustomerName() + "' , '"
-					+ customerModel.getIsActive() + "')";
+					+ customerModel.getIsActive() + "','" + customerModel.getCustomerGender() + "')";
 			int result = st.executeUpdate(sql);
 			System.out.println("Inserted ::" + result);
 
@@ -115,7 +115,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			while (rs.next()) {
 				CustomerModel customer = new CustomerModel(rs.getInt("customerId"), rs.getString("customerName"),
 						rs.getString("customerContactNo"), rs.getString("customerEmail"), rs.getString("isActive"),
-						rs.getDate("createdDate"));
+						rs.getDate("createdDate"), rs.getString("customerGender"));
 				list.add(customer);
 			}
 		} catch (SQLException e) {
@@ -148,6 +148,8 @@ public class CustomerDaoImpl implements CustomerDao {
 			customer.setCustomerName(customerModel.getCustomerName());
 		if (customerModel.getIsActive() != null)
 			customer.setIsActive(customerModel.getIsActive());
+		if (customerModel.getCustomerGender() != null)
+			customer.setCustomerGender(customerModel.getCustomerGender());
 
 		Connection conn = null;
 		Statement st = null;
@@ -157,7 +159,8 @@ public class CustomerDaoImpl implements CustomerDao {
 			String sql = "update  customer_master set customerContactNo='" + customerModel.getCustomerContactNo()
 					+ "',customerEmail='" + customerModel.getCustomerEmail() + "',customerName='"
 					+ customerModel.getCustomerName() + "',isActive='" + customerModel.getIsActive()
-					+ "' where customerId=" + customer.getCustomerId();
+					+ " , customerGender=" + customerModel.getCustomerGender() + "' where customerId="
+					+ customer.getCustomerId();
 
 			int result = st.executeUpdate(sql);
 			System.out.println("Update ::" + result);

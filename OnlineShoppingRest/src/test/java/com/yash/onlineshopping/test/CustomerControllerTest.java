@@ -37,8 +37,8 @@ public class CustomerControllerTest {
 
 	@Test
 	public void getCustomerByIdTest() throws Exception {
-		CustomerModel model = new CustomerModel(1, "Anish Singh", "9661188225", "anish.singh@yash.com", "Y",
-				new Date());
+		CustomerModel model = new CustomerModel(1, "Anish Singh", "9661188225", "anish.singh@yash.com", "Y", new Date(),
+				"Male");
 
 		Mockito.when(customerService.findById(1)).thenReturn(model);
 
