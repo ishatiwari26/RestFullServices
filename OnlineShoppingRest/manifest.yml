@@ -1,9 +1,6 @@
 applications:
 name: online-shopping-cart
-path: target/OnlineShoppingRest.jar
+path: target/OnlineShoppingRest.war
 domain: cfapps.io
 memory: 512m
 instances: 1
-buildpack: https://github.com/cloudfoundry/java-buildpack
-  env:
-    SPRING_PROFILES_ACTIVE : cloud
