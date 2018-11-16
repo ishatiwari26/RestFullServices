@@ -1,6 +1,6 @@
 applications:
 name: online-shopping-cart
-path: target/OnlineShoppingRest.jar
+path: OnlineShoppingRest.jar
 domain: cfapps.io
 memory: 512m
 instances: 1
