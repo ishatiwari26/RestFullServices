@@ -1,0 +1,6 @@
+applications:
+name: online-shopping-cart
+path: target/OnlineShoppingRest.war
+domain: cfapps.io
+memory: 512m
+instances: 1
